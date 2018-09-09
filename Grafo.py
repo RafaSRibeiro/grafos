@@ -17,8 +17,7 @@ class Grafo(object):
         id = 0
         for origem, destino in arestas:
             self.addAresta(id, origem, destino)
-            id +=1
-
+            id += 1
 
     def addVertice(self, id):
         # string = input(str("Identificador do Vertice: "))
@@ -71,12 +70,15 @@ class Grafo(object):
     def listaMatrizIncidencia(self):
         quantidadeVertices = len(self.vertices)
         quantidadeArestas = len(self.arestas)
-        matriz = [[0 for col in range(quantidadeArestas)] for row in range(quantidadeVertices)]
+        matriz = [[' 0' for col in range(quantidadeArestas)] for row in range(quantidadeVertices)]
         for vertice in self.vertices:
             for aresta in self.arestas:
                 if vertice.id in (aresta.origem.id, aresta.destino.id):
-                    
-                    matriz[vertice.id][aresta.id] = 1
+                    if self.orientado:
+                        matriz[vertice.id][aresta.id] = '-1'
+                        matriz[aresta.id][vertice.id] = ' 1'
+                    else:
+                        matriz[vertice.id][aresta.id] = ' 1'
         return matriz
 
     def imprimeMatrizAdjacencia(self):
@@ -97,7 +99,7 @@ class Grafo(object):
         matriz = self.listaMatrizIncidencia()
         print(' ', end="|", flush=True)
         for aresta in self.arestas:
-            print(aresta.origem, aresta.destino, end="|", flush=True)
+            print('', aresta.origem, aresta.destino, end="|", flush=True)
         print('')
         quantidadeVertices = len(self.vertices)
         quantidadeArestas = len(self.arestas)
@@ -105,9 +107,8 @@ class Grafo(object):
             vertice = self.vertices[i]
             print(vertice.rotulo, end="|", flush=True)
             for j in range(0, quantidadeArestas):
-                print(' ',matriz[i][j], end="|", flush=True)
+                print(' ', matriz[i][j], end="|", flush=True)
             print('')
-
 
     def imprimeListaAdjacencia(self):
         listaAdjacencia = self.listaAdjacencia()
@@ -115,11 +116,12 @@ class Grafo(object):
         for origem, destinos in listaAdjacencia.items():
             print(origem, end=" => ", flush=True)
             for destino in destinos:
-              print(destino, end=",", flush=True)
+                print(destino, end=",", flush=True)
             print()
+
 
 vertices = ['A', 'B', 'C', 'D', 'E', 'F']
 arestas = [('A', 'B'), ('B', 'C'), ('B', 'D'), ('C', 'D'), ('E', 'F'), ('F', 'C')]
 
-g = Grafo(vertices, arestas, False)
+g = Grafo(vertices, arestas, True)
 print(g.imprimeMatrizIncidencia())
