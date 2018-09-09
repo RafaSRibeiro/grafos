@@ -5,8 +5,8 @@ from collections import defaultdict
 
 class Grafo(object):
 
-    def __init__(self, vertices=[], arestas=[], direcionado=True):
-        self.direcionado = direcionado
+    def __init__(self, vertices=[], arestas=[], orientado=True):
+        self.orientado = orientado
         self.vertices = []
         id = 0
         for vertice in vertices:
@@ -32,7 +32,7 @@ class Grafo(object):
         else:
             print("Vertice %s ou %s não existe" % (origem, destino))
 
-        if self.direcionado == False:
+        if self.orientado == False:
             self.arestas.append(Aresta(id, destino, origem, peso))
 
     def findVerticeByRotulo(self, rotulo):
@@ -46,7 +46,7 @@ class Grafo(object):
         listaAdjacente = defaultdict(set)
         for aresta in self.arestas:
             listaAdjacente[aresta.origem].add(aresta.destino)
-            if not self.direcionado:
+            if not self.orientado:
                 listaAdjacente[aresta.destino].add(aresta.origem)
         return listaAdjacente
 
@@ -60,13 +60,22 @@ class Grafo(object):
             matriz[aresta.origem.id][aresta.destino.id] = 1
         return matriz
 
+    def imprimeListaArestas(self):
+        for aresta in self.arestas:
+            if self.orientado:
+                separador = "=>"
+            else:
+                separador = "<=>"
+            print(aresta.origem, separador, aresta.destino)
+
     def listaMatrizIncidencia(self):
         quantidadeVertices = len(self.vertices)
         quantidadeArestas = len(self.arestas)
-        matriz = [[0 for col in range(quantidadeVertices)] for row in range(quantidadeArestas)]
+        matriz = [[0 for col in range(quantidadeArestas)] for row in range(quantidadeVertices)]
         for vertice in self.vertices:
             for aresta in self.arestas:
                 if vertice.id in (aresta.origem.id, aresta.destino.id):
+                    
                     matriz[vertice.id][aresta.id] = 1
         return matriz
 
@@ -88,7 +97,7 @@ class Grafo(object):
         matriz = self.listaMatrizIncidencia()
         print(' ', end="|", flush=True)
         for aresta in self.arestas:
-            print(aresta.id, end="|", flush=True)
+            print(aresta.origem, aresta.destino, end="|", flush=True)
         print('')
         quantidadeVertices = len(self.vertices)
         quantidadeArestas = len(self.arestas)
@@ -96,7 +105,7 @@ class Grafo(object):
             vertice = self.vertices[i]
             print(vertice.rotulo, end="|", flush=True)
             for j in range(0, quantidadeArestas):
-                print(matriz[i][j], end="|", flush=True)
+                print(' ',matriz[i][j], end="|", flush=True)
             print('')
 
 
@@ -112,5 +121,5 @@ class Grafo(object):
 vertices = ['A', 'B', 'C', 'D', 'E', 'F']
 arestas = [('A', 'B'), ('B', 'C'), ('B', 'D'), ('C', 'D'), ('E', 'F'), ('F', 'C')]
 
-g = Grafo(vertices, arestas)
+g = Grafo(vertices, arestas, False)
 print(g.imprimeMatrizIncidencia())
