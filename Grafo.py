@@ -31,8 +31,8 @@ class Grafo(object):
         else:
             print("Vertice %s ou %s não existe" % (origem, destino))
 
-        if self.orientado == False:
-            self.arestas.append(Aresta(id, destino, origem, peso))
+        # if self.orientado == False:
+        #     self.arestas.append(Aresta(id, destino, origem, peso))
 
     def findVerticeByRotulo(self, rotulo):
         for vertice in self.vertices:
@@ -75,8 +75,10 @@ class Grafo(object):
             for aresta in self.arestas:
                 if vertice.id in (aresta.origem.id, aresta.destino.id):
                     if self.orientado:
-                        matriz[vertice.id][aresta.id] = '-1'
-                        matriz[aresta.id][vertice.id] = ' 1'
+                        if aresta.origem.id == vertice.id:
+                            matriz[vertice.id][aresta.id] = ' 1'
+                        elif aresta.destino.id == vertice.id:
+                            matriz[vertice.id][aresta.id] = '-1'
                     else:
                         matriz[vertice.id][aresta.id] = ' 1'
         return matriz
@@ -85,14 +87,14 @@ class Grafo(object):
         matriz = self.listaMatrizAdjacencia()
         print(' ', end="|", flush=True)
         for vertice in self.vertices:
-            print(vertice.rotulo, end="|", flush=True)
+            print(' ',vertice.rotulo, end="|", flush=True)
         print('')
         tamanhoVertices = len(self.vertices)
         for i in range(0, tamanhoVertices):
             vertice = g.vertices[i]
             print(vertice.rotulo, end="|", flush=True)
             for j in range(0, tamanhoVertices):
-                print(matriz[i][j], end="|", flush=True)
+                print(' ',matriz[i][j], end="|", flush=True)
             print('')
 
     def imprimeMatrizIncidencia(self):
@@ -112,7 +114,6 @@ class Grafo(object):
 
     def imprimeListaAdjacencia(self):
         listaAdjacencia = self.listaAdjacencia()
-        print(listaAdjacencia)
         for origem, destinos in listaAdjacencia.items():
             print(origem, end=" => ", flush=True)
             for destino in destinos:
@@ -123,5 +124,9 @@ class Grafo(object):
 vertices = ['A', 'B', 'C', 'D', 'E', 'F']
 arestas = [('A', 'B'), ('B', 'C'), ('B', 'D'), ('C', 'D'), ('E', 'F'), ('F', 'C')]
 
-g = Grafo(vertices, arestas, True)
-print(g.imprimeMatrizIncidencia())
+g2 = Grafo(vertices, arestas, True)
+print(g2.imprimeMatrizIncidencia())
+
+g1 = Grafo(vertices, arestas, False)
+print(g1.imprimeMatrizIncidencia())
+
