@@ -136,5 +136,8 @@ print(g2.imprimeMatrizAdjacencia())
 print(g2.imprimeMatrizIncidencia())
 
 g1 = Grafo(vertices, arestas, False)
+print(g1.imprimeListaArestas())
+print(g1.imprimeListaAdjacencia())
+print(g1.imprimeListaAdjacencia())
 print(g1.imprimeMatrizIncidencia())
 
