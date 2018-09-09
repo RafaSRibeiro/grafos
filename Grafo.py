@@ -91,7 +91,7 @@ class Grafo(object):
         print('')
         tamanhoVertices = len(self.vertices)
         for i in range(0, tamanhoVertices):
-            vertice = g.vertices[i]
+            vertice = self.vertices[i]
             print(vertice.rotulo, end="|", flush=True)
             for j in range(0, tamanhoVertices):
                 print(' ',matriz[i][j], end="|", flush=True)
@@ -130,6 +130,9 @@ vertices = ['A', 'B', 'C', 'D', 'E', 'F']
 arestas = [('A', 'B'), ('B', 'C'), ('B', 'D'), ('C', 'D'), ('E', 'F'), ('F', 'C')]
 
 g2 = Grafo(vertices, arestas, True)
+print(g2.imprimeListaArestas())
+print(g2.imprimeListaAdjacencia())
+print(g2.imprimeMatrizAdjacencia())
 print(g2.imprimeMatrizIncidencia())
 
 g1 = Grafo(vertices, arestas, False)
