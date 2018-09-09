@@ -121,7 +121,12 @@ class Grafo(object):
             print()
 
 
+# vertices = input("Vertices Ex:A,B,C,D  :")
+# vertices = vertices.split(",")
 vertices = ['A', 'B', 'C', 'D', 'E', 'F']
+
+# arestas = input("Arestas Ex:AB,BC,BD :")
+# arestas = arestas.split(",")
 arestas = [('A', 'B'), ('B', 'C'), ('B', 'D'), ('C', 'D'), ('E', 'F'), ('F', 'C')]
 
 g2 = Grafo(vertices, arestas, True)
