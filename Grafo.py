@@ -5,9 +5,10 @@ from collections import defaultdict
 
 class Grafo(object):
 
-    def __init__(self, vertices=[], arestas=[], orientado=True):
+    def __init__(self, vertices=[], arestas=[], orientado=True, valorado=False):
         self.orientado = orientado
         self.vertices = []
+        self.valorado = valorado
         id = 0
         for vertice in vertices:
             self.vertices.append(Vertice(id, vertice))
@@ -15,8 +16,8 @@ class Grafo(object):
 
         self.arestas = []
         id = 0
-        for origem, destino in arestas:
-            self.addAresta(id, origem, destino)
+        for origem, destino, valor in arestas:
+            self.addAresta(id, origem, destino, valor)
             id += 1
 
     def addVertice(self, id):
@@ -56,7 +57,7 @@ class Grafo(object):
         v = len(self.vertices)
         matriz = [[0 for col in range(v)] for row in range(v)]
         for aresta in self.arestas:
-            matriz[aresta.origem.id][aresta.destino.id] = 1
+            matriz[aresta.origem.id][aresta.destino.id] = aresta.peso if self.valorado else 1
         return matriz
 
     def imprimeListaArestas(self):
@@ -65,7 +66,7 @@ class Grafo(object):
                 separador = "=>"
             else:
                 separador = "<=>"
-            print(aresta.origem, separador, aresta.destino)
+            print(aresta.origem, separador, aresta.destino, ' = '+ str(aresta.peso) if self.valorado else '')
 
     def listaMatrizIncidencia(self):
         quantidadeVertices = len(self.vertices)
@@ -76,11 +77,11 @@ class Grafo(object):
                 if vertice.id in (aresta.origem.id, aresta.destino.id):
                     if self.orientado:
                         if aresta.origem.id == vertice.id:
-                            matriz[vertice.id][aresta.id] = ' 1'
+                            matriz[vertice.id][aresta.id] = ' '+str(aresta.peso) if self.valorado else ' 1'
                         elif aresta.destino.id == vertice.id:
-                            matriz[vertice.id][aresta.id] = '-1'
+                            matriz[vertice.id][aresta.id] = ' '+str(aresta.peso) if self.valorado else '-1'
                     else:
-                        matriz[vertice.id][aresta.id] = ' 1'
+                        matriz[vertice.id][aresta.id] = ' '+str(aresta.peso) if self.valorado else ' 1'
         return matriz
 
     def imprimeMatrizAdjacencia(self):
@@ -119,25 +120,4 @@ class Grafo(object):
             for destino in destinos:
                 print(destino, end=",", flush=True)
             print()
-
-
-# vertices = input("Vertices Ex:A,B,C,D  :")
-# vertices = vertices.split(",")
-vertices = ['A', 'B', 'C', 'D', 'E', 'F']
-
-# arestas = input("Arestas Ex:AB,BC,BD :")
-# arestas = arestas.split(",")
-arestas = [('A', 'B'), ('B', 'C'), ('B', 'D'), ('C', 'D'), ('E', 'F'), ('F', 'C')]
-
-g2 = Grafo(vertices, arestas, True)
-print(g2.imprimeListaArestas())
-print(g2.imprimeListaAdjacencia())
-print(g2.imprimeMatrizAdjacencia())
-print(g2.imprimeMatrizIncidencia())
-
-g1 = Grafo(vertices, arestas, False)
-print(g1.imprimeListaArestas())
-print(g1.imprimeListaAdjacencia())
-print(g1.imprimeListaAdjacencia())
-print(g1.imprimeMatrizIncidencia())
 
