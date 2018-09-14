@@ -16,8 +16,8 @@ class Grafo(object):
 
         self.arestas = []
         id = 0
-        for origem, destino, valor in arestas:
-            self.addAresta(id, origem, destino, valor)
+        for aresta in arestas:
+            self.addAresta(id, aresta[0], aresta[1], aresta[2] if self.valorado else 1)
             id += 1
 
     def addVertice(self, id):
